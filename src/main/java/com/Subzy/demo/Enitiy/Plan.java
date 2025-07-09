@@ -13,7 +13,6 @@ public class Plan {
     @JoinColumn(name = "company_id")
     private Company company;
     private double price;
-
     @Enumerated(EnumType.STRING)
     private BillingCycle billingCycle;
     private int trialDays;
