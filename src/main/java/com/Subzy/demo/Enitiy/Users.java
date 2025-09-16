@@ -3,10 +3,7 @@ package com.Subzy.demo.Enitiy;
 import com.Subzy.demo.Utils.Roles;
 import com.Subzy.demo.Utils.Status;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -15,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Setter
 @Getter
-
+@Builder
 public class Users {
 
     @Id

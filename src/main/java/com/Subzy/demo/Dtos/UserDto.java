@@ -1,15 +1,15 @@
 package com.Subzy.demo.Dtos;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class RegisterClientRequest {
+@Builder
+public class UserDto {
+    private Long id;
     private String fullName;
     private String email;
-    private String password;
-
-    private String phone;
-    private Long companyId;
+    private String role;
 }

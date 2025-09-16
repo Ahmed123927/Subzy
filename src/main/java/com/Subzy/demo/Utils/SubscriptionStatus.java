@@ -1,7 +1,7 @@
 package com.Subzy.demo.Utils;
 
 public enum SubscriptionStatus {
-    TRIAL,
+    PENDING,
     ACTIVE,
     EXPIRED,
     CANCELLED
