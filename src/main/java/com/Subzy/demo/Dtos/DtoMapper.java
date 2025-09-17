@@ -46,13 +46,13 @@ public class DtoMapper {
                 .build();
     }
 
-    public static Client mapToClient(RegisterClientRequest request, Company company, Users user) {
+    public static Client mapToClient(RegisterClientRequest request, Users user) {
         Client client = new Client();
         client.setPhone(request.getPhone());
-        client.setCompany(company);
         client.setUser(user);
         return client;
     }
+
 
     public static Plan mapToPlan(CreatePlanRequest request, Company company) {
         return Plan.builder()
@@ -150,6 +150,14 @@ public class DtoMapper {
                 .role(user.getRole().name())
                 .build();
     }
+    public static UserDto mapToUserDto(Client client) {
+        return UserDto.builder()
+                .id(client.getId())
+                .fullName(client.getUser().getFullName())
+                .email(client.getUser().getEmail())
+                .build();
+    }
+
 
 
 

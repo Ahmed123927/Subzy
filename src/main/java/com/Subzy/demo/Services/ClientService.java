@@ -8,6 +8,7 @@ import com.Subzy.demo.Enitiy.Users;
 import com.Subzy.demo.Repository.ClientRepository;
 import com.Subzy.demo.Repository.CompanyRepository;
 import com.Subzy.demo.Repository.UserRepository;
+import com.Subzy.demo.Utils.Roles;
 import com.Subzy.demo.Utils.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,20 +31,28 @@ public class ClientService {
 
 
     public ResponseEntity<String> registerClient(RegisterClientRequest request) {
-
-        Optional<Company> companyOpt = companyRepository.findById(request.getCompanyId());
-        if (companyOpt.isEmpty()) {
-            return ResponseEntity.badRequest().body("Company not found");
+        if (userRepository.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().body("Email already exists");
         }
-        Company company = companyOpt.get();
 
-
-        Users user = DtoMapper.mapToUserFromClientRequest(request, request.getPassword());
+        Users user = Users.builder()
+                .fullName(request.getFullName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .role(Roles.CLIENT)
+                .status(Status.ACTIVE)
+                .createdAt(new Date())
+                .build();
         userRepository.save(user);
 
-        Client client = DtoMapper.mapToClient(request, company, user);
+        Client client = Client.builder()
+                .phone(request.getPhone())
+                .user(user)
+                .build();
         clientRepository.save(client);
 
         return ResponseEntity.ok("Client registered successfully");
     }
+
+
 }

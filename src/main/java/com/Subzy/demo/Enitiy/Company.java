@@ -26,10 +26,11 @@ public class Company {
     @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
     private List<Plan> plans=new ArrayList<>();
 
-    @OneToMany(mappedBy = "company")
-    private List<Client> clients=new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private Users user;
+
+    @ManyToMany(mappedBy = "companies")
+    private List<Client> clients = new ArrayList<>();
 }

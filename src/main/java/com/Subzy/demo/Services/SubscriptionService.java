@@ -46,9 +46,13 @@ public class SubscriptionService {
         Plan plan = planOpt.get();
         Client client = clientOpt.get();
 
+        if (!client.getCompanies().contains(plan.getCompany())) {
+            client.getCompanies().add(plan.getCompany());
+            clientRepository.save(client);
+        }
+
         Subscription subscription = DtoMapper.mapToSubscription(request, client, plan);
         subscription.setStatus(SubscriptionStatus.PENDING);
-
         Subscription savedSub = subscriptionRepository.save(subscription);
 
         Invoice invoice = Invoice.builder()
@@ -58,13 +62,12 @@ public class SubscriptionService {
                 .amount(plan.getPrice())
                 .status(InvoiceStatus.PENDING)
                 .build();
-
         invoiceRepository.save(invoice);
 
         return ResponseEntity.ok("Subscription created, invoice generated with amount " + plan.getPrice());
     }
 
-    // ✅ تعديل getAllSubscriptions
+
     public ResponseEntity<List<SubscriptionResponse>> getAllSubscriptions() {
         List<Subscription> subscriptions = subscriptionRepository.findAll();
         List<SubscriptionResponse> responseList = subscriptions.stream()
@@ -74,7 +77,6 @@ public class SubscriptionService {
         return ResponseEntity.ok(responseList);
     }
 
-    // ✅ تعديل getSubscriptionById
     public ResponseEntity<SubscriptionResponse> getSubscriptionById(Long id) {
         return subscriptionRepository.findById(id)
                 .map(DtoMapper::mapToSubscriptionResponse)
